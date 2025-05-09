@@ -1,6 +1,6 @@
 package com.repositorio.biblioteca.service;
 
-import com.repositorio.biblioteca.POJO.Bill;
+import com.repositorio.biblioteca.Model.Bill;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

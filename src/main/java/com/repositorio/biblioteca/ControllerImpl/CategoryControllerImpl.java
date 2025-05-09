@@ -1,8 +1,8 @@
-package com.repositorio.biblioteca.restImpl;
+package com.repositorio.biblioteca.ControllerImpl;
 
-import com.repositorio.biblioteca.POJO.Category;
+import com.repositorio.biblioteca.Model.Category;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.rest.CategoryRest;
+import com.repositorio.biblioteca.Controller.CategoryController;
 import com.repositorio.biblioteca.service.CategoryService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class CategoryRestImpl implements CategoryRest {
+public class CategoryControllerImpl implements CategoryController {
 
     @Autowired
     CategoryService categoryService;

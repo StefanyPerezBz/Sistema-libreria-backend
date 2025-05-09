@@ -1,6 +1,6 @@
 package com.repositorio.biblioteca.service;
 
-import com.repositorio.biblioteca.POJO.Category;
+import com.repositorio.biblioteca.Model.Category;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

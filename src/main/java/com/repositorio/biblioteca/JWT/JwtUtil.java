@@ -1,6 +1,5 @@
 package com.repositorio.biblioteca.JWT;
 
-import com.repositorio.biblioteca.POJO.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

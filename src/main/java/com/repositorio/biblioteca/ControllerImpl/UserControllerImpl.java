@@ -1,25 +1,23 @@
-package com.repositorio.biblioteca.restImpl;
+package com.repositorio.biblioteca.ControllerImpl;
 
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.rest.UserRest;
+import com.repositorio.biblioteca.Controller.UserController;
 import com.repositorio.biblioteca.service.UserService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import com.repositorio.biblioteca.wrapper.UserWrapper;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class UserRestImpl implements UserRest {
+public class UserControllerImpl implements UserController {
 
-    //private static final Logger logger = LoggerFactory.getLogger(UserRestImpl.class);
+    //private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
 
     @Autowired
     UserService userService;

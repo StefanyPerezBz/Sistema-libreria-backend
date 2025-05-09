@@ -1,4 +1,4 @@
-package com.repositorio.biblioteca.POJO;
+package com.repositorio.biblioteca.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;

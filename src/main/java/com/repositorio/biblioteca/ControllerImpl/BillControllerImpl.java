@@ -1,8 +1,8 @@
-package com.repositorio.biblioteca.restImpl;
+package com.repositorio.biblioteca.ControllerImpl;
 
-import com.repositorio.biblioteca.POJO.Bill;
+import com.repositorio.biblioteca.Model.Bill;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.rest.BillRest;
+import com.repositorio.biblioteca.Controller.BillController;
 import com.repositorio.biblioteca.service.BillService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class BillRestImpl implements BillRest {
+public class BillControllerImpl implements BillController {
 
     @Autowired
     BillService billService;

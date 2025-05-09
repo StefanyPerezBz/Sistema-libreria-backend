@@ -1,10 +1,10 @@
 package com.repositorio.biblioteca.serviceImpl;
 
 import com.repositorio.biblioteca.JWT.JwtFilter;
-import com.repositorio.biblioteca.POJO.Book;
-import com.repositorio.biblioteca.POJO.Category;
+import com.repositorio.biblioteca.Model.Book;
+import com.repositorio.biblioteca.Model.Category;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.dao.BookDao;
+import com.repositorio.biblioteca.Repository.BookRepository;
 import com.repositorio.biblioteca.service.BookService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import com.repositorio.biblioteca.wrapper.BookWrapper;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    BookDao bookDao;
+    BookRepository bookRepository;
 
     @Autowired
     JwtFilter jwtFilter;
@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
       try {
         if (jwtFilter.isAdmin()){
           if (validateBookMap(requestMap, false)){
-            bookDao.save(getBookFromMap(requestMap, false));
+            bookRepository.save(getBookFromMap(requestMap, false));
             return BibliotecaUtils.getResponseEntity("Libro agregado exitosamente", HttpStatus.OK);
           }
           return BibliotecaUtils.getResponseEntity(BibliotecaConstants.INVALID_DATA, HttpStatus.BAD_REQUEST);
@@ -82,7 +82,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ResponseEntity<List<BookWrapper>> getAllBook() {
         try {
-          return new ResponseEntity<>(bookDao.getAllBook(), HttpStatus.OK);
+          return new ResponseEntity<>(bookRepository.getAllBook(), HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -95,11 +95,11 @@ public class BookServiceImpl implements BookService {
         try {
            if (jwtFilter.isAdmin()){
              if (validateBookMap(requestMap, true)){
-                Optional<Book> optional =  bookDao.findById(Integer.parseInt(requestMap.get("id")));
+                Optional<Book> optional =  bookRepository.findById(Integer.parseInt(requestMap.get("id")));
                 if (!optional.isEmpty()){
                   Book book = getBookFromMap(requestMap, true);
                   book.setStatus(optional.get().getStatus());
-                  bookDao.save(book);
+                  bookRepository.save(book);
                   return BibliotecaUtils.getResponseEntity("Libro actualizado exitosamente", HttpStatus.OK);
                 }
                 else {
@@ -122,9 +122,9 @@ public class BookServiceImpl implements BookService {
     public ResponseEntity<String> deleteBook(Integer id) {
         try {
            if (jwtFilter.isAdmin()){
-             Optional optional =  bookDao.findById(id);
+             Optional optional =  bookRepository.findById(id);
              if (!optional.isEmpty()){
-                bookDao.deleteById(id);
+                bookRepository.deleteById(id);
                 return BibliotecaUtils.getResponseEntity("Libro eliminado exitosamente", HttpStatus.OK);
              }
              return BibliotecaUtils.getResponseEntity("El ID del libro no existe", HttpStatus.OK);
@@ -141,9 +141,9 @@ public class BookServiceImpl implements BookService {
     public ResponseEntity<String> updateStatus(Map<String, String> requestMap) {
         try {
           if (jwtFilter.isAdmin()){
-           Optional optional =  bookDao.findById(Integer.parseInt(requestMap.get("id")));
+           Optional optional =  bookRepository.findById(Integer.parseInt(requestMap.get("id")));
            if (!optional.isEmpty()){
-               bookDao.updateBookStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+               bookRepository.updateBookStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
                return BibliotecaUtils.getResponseEntity("El estado del libro se actualizado exitosamente", HttpStatus.OK);
            }
            return BibliotecaUtils.getResponseEntity("El ID del libro no existe", HttpStatus.OK);
@@ -160,7 +160,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ResponseEntity<List<BookWrapper>> getByCategory(Integer id) {
         try {
-          return new ResponseEntity<>(bookDao.getBookByCategory(id), HttpStatus.OK);
+          return new ResponseEntity<>(bookRepository.getBookByCategory(id), HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -170,7 +170,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public ResponseEntity<BookWrapper> getBookById(Integer id) {
         try {
-           return new ResponseEntity<>(bookDao.getBookById(id), HttpStatus.OK);
+           return new ResponseEntity<>(bookRepository.getBookById(id), HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.repositorio.biblioteca.rest;
+package com.repositorio.biblioteca.Controller;
 
 import com.repositorio.biblioteca.wrapper.UserWrapper;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping(path = "/user")
-public interface UserRest {
+public interface UserController {
 
     @PostMapping(path = "/signup")
     public ResponseEntity<String> signUp(@RequestBody(required = true) Map<String, String> requestMap);

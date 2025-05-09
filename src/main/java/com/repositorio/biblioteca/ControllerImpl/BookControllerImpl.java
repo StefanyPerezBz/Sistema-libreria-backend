@@ -1,7 +1,7 @@
-package com.repositorio.biblioteca.restImpl;
+package com.repositorio.biblioteca.ControllerImpl;
 
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.rest.BookRest;
+import com.repositorio.biblioteca.Controller.BookController;
 import com.repositorio.biblioteca.service.BookService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import com.repositorio.biblioteca.wrapper.BookWrapper;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class BookRestImpl implements BookRest {
+public class BookControllerImpl implements BookController {
 
     @Autowired
     BookService bookService;

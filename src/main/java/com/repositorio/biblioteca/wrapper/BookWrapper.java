@@ -1,6 +1,5 @@
 package com.repositorio.biblioteca.wrapper;
 
-import com.repositorio.biblioteca.POJO.Book;
 import lombok.Data;
 
 @Data

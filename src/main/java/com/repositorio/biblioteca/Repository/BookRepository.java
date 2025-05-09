@@ -1,6 +1,6 @@
-package com.repositorio.biblioteca.dao;
+package com.repositorio.biblioteca.Repository;
 
-import com.repositorio.biblioteca.POJO.Book;
+import com.repositorio.biblioteca.Model.Book;
 import com.repositorio.biblioteca.wrapper.BookWrapper;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BookDao extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<BookWrapper> getAllBook();
 

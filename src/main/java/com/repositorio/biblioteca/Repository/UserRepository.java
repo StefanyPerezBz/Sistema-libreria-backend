@@ -1,6 +1,6 @@
-package com.repositorio.biblioteca.dao;
+package com.repositorio.biblioteca.Repository;
 
-import com.repositorio.biblioteca.POJO.User;
+import com.repositorio.biblioteca.Model.User;
 import com.repositorio.biblioteca.wrapper.UserWrapper;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface UserDao extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByEmailId(@Param("email") String email);
 

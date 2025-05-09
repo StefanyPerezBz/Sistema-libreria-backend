@@ -1,6 +1,5 @@
 package com.repositorio.biblioteca.serviceImpl;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
@@ -9,9 +8,9 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.repositorio.biblioteca.JWT.JwtFilter;
-import com.repositorio.biblioteca.POJO.Bill;
+import com.repositorio.biblioteca.Model.Bill;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.dao.BillDao;
+import com.repositorio.biblioteca.Repository.BillRepository;
 import com.repositorio.biblioteca.service.BillService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +39,7 @@ public class BillServiceImpl implements BillService {
     JwtFilter jwtFilter;
 
     @Autowired
-    BillDao billDao;
+    BillRepository billRepository;
 
     @Override
     public ResponseEntity<String> generateReport(Map<String, Object> requestMap) {
@@ -102,9 +101,9 @@ public class BillServiceImpl implements BillService {
     public ResponseEntity<List<Bill>> getBills() {
         List<Bill> list = new ArrayList<>();
         if (jwtFilter.isAdmin()) {
-            list = billDao.getAllBills();
+            list = billRepository.getAllBills();
         } else {
-          list = billDao.getBillByUsername(jwtFilter.getCurrentUser());
+          list = billRepository.getBillByUsername(jwtFilter.getCurrentUser());
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -206,7 +205,7 @@ public class BillServiceImpl implements BillService {
             bill.setTotal(Integer.parseInt((String) requestMap.get("totalAmount")));
             bill.setBookDetail((String) requestMap.get("bookDetails"));
             bill.setCreatedBy(jwtFilter.getCurrentUser());
-            billDao.save(bill);
+            billRepository.save(bill);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -224,9 +223,9 @@ public class BillServiceImpl implements BillService {
     @Override
     public ResponseEntity<String> deleteBill(Integer id) {
         try {
-            Optional optional = billDao.findById(id);
+            Optional optional = billRepository.findById(id);
             if (!optional.isEmpty()){
-              billDao.deleteById(id);
+              billRepository.deleteById(id);
               return BibliotecaUtils.getResponseEntity("La factura ha sido eliminada exitosamente", HttpStatus.OK);
             }
             return BibliotecaUtils.getResponseEntity("El ID de la factura no existe", HttpStatus.OK);

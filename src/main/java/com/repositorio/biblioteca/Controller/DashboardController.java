@@ -1,4 +1,4 @@
-package com.repositorio.biblioteca.rest;
+package com.repositorio.biblioteca.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Map;
 
 @RequestMapping(path = "/dashboard")
-public interface DashboardRest {
+public interface DashboardController {
 
     @GetMapping(path = "/details")
     ResponseEntity<Map<String, Object>> getCount();

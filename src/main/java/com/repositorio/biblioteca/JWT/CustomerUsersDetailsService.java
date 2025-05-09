@@ -1,7 +1,7 @@
 package com.repositorio.biblioteca.JWT;
 
 
-import com.repositorio.biblioteca.dao.UserDao;
+import com.repositorio.biblioteca.Repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -18,14 +18,14 @@ import java.util.Objects;
 public class CustomerUsersDetailsService  implements UserDetailsService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
-    private com.repositorio.biblioteca.POJO.User userDetail;
+    private com.repositorio.biblioteca.Model.User userDetail;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Dentro de loadUserByUsername {}", username);
-        userDetail = userDao.findByEmailId(username);
+        userDetail = userRepository.findByEmailId(username);
         if (!Objects.isNull(userDetail)) {
             return new User(userDetail.getEmail(), userDetail.getPassword(), new ArrayList<>());
         } else {
@@ -33,7 +33,7 @@ public class CustomerUsersDetailsService  implements UserDetailsService {
         }
     }
 
-    public com.repositorio.biblioteca.POJO.User getUserDetail() {
+    public com.repositorio.biblioteca.Model.User getUserDetail() {
         return userDetail;
     }
 

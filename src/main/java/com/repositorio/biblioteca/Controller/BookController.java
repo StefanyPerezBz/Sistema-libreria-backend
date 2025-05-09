@@ -1,6 +1,5 @@
-package com.repositorio.biblioteca.rest;
+package com.repositorio.biblioteca.Controller;
 
-import com.repositorio.biblioteca.POJO.Book;
 import com.repositorio.biblioteca.wrapper.BookWrapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping(path = "/book")
-public interface BookRest {
+public interface BookController {
 
     @PostMapping(path = "/add")
     ResponseEntity<String> addNewBook(@RequestBody Map<String, String> requestMap);

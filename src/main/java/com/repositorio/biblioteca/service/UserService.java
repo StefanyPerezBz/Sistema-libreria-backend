@@ -1,6 +1,5 @@
 package com.repositorio.biblioteca.service;
 
-import com.repositorio.biblioteca.POJO.User;
 import com.repositorio.biblioteca.wrapper.UserWrapper;
 import org.springframework.http.ResponseEntity;
 

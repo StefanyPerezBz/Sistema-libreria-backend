@@ -1,10 +1,8 @@
 package com.repositorio.biblioteca.serviceImpl;
 
-import com.repositorio.biblioteca.dao.BillDao;
-import com.repositorio.biblioteca.dao.BookDao;
-import com.repositorio.biblioteca.dao.CategoryDao;
-import com.repositorio.biblioteca.rest.DashboardRest;
-import com.repositorio.biblioteca.service.BillService;
+import com.repositorio.biblioteca.Repository.BillRepository;
+import com.repositorio.biblioteca.Repository.BookRepository;
+import com.repositorio.biblioteca.Repository.CategoryRepository;
 import com.repositorio.biblioteca.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,21 +16,21 @@ import java.util.Map;
 public class DashboardServiceImpl implements DashboardService {
 
     @Autowired
-    CategoryDao categoryDao;
+    CategoryRepository categoryRepository;
 
     @Autowired
-    BookDao bookDao;
+    BookRepository bookRepository;
 
     @Autowired
-    BillDao billDao;
+    BillRepository billRepository;
 
     @Override
     public ResponseEntity<Map<String, Object>> getCount() {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("category", categoryDao.count());
-        map.put("book", bookDao.count());
-        map.put("bill", billDao.count());
+        map.put("category", categoryRepository.count());
+        map.put("book", bookRepository.count());
+        map.put("bill", billRepository.count());
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

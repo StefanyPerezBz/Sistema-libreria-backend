@@ -1,6 +1,6 @@
-package com.repositorio.biblioteca.rest;
+package com.repositorio.biblioteca.Controller;
 
-import com.repositorio.biblioteca.POJO.Bill;
+import com.repositorio.biblioteca.Model.Bill;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequestMapping(path = "/bill")
-public interface BillRest {
+public interface BillController {
 
     @PostMapping(path = "/generateReport")
     ResponseEntity<String> generateReport(@RequestBody Map<String, Object> requestMap);

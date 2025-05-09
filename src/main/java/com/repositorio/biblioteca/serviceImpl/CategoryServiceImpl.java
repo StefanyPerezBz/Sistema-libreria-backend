@@ -2,9 +2,9 @@ package com.repositorio.biblioteca.serviceImpl;
 
 import com.google.common.base.Strings;
 import com.repositorio.biblioteca.JWT.JwtFilter;
-import com.repositorio.biblioteca.POJO.Category;
+import com.repositorio.biblioteca.Model.Category;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.dao.CategoryDao;
+import com.repositorio.biblioteca.Repository.CategoryRepository;
 import com.repositorio.biblioteca.service.CategoryService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryDao categoryDao;
+    CategoryRepository categoryRepository;
 
     @Autowired
     JwtFilter jwtFilter;
@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
        try {
          if (jwtFilter.isAdmin()) {
            if (validateCategoryMap(requestMap, false)){
-             categoryDao.save(getCategoryFromMap(requestMap, false));
+             categoryRepository.save(getCategoryFromMap(requestMap, false));
              return BibliotecaUtils.getResponseEntity("Categoria agregada exitosamente", HttpStatus.OK);
            }
          }
@@ -71,9 +71,9 @@ public class CategoryServiceImpl implements CategoryService {
       try {
         if (!Strings.isNullOrEmpty(filterValue) && filterValue.equalsIgnoreCase("true")) {
            log.info("Dentro de categoria");
-           return new ResponseEntity<List<Category>>(categoryDao.getAllCategory(), HttpStatus.OK);
+           return new ResponseEntity<List<Category>>(categoryRepository.getAllCategory(), HttpStatus.OK);
         }
-        return new ResponseEntity<>(categoryDao.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
       } catch (Exception ex) {
           ex.printStackTrace();
       }
@@ -85,9 +85,9 @@ public class CategoryServiceImpl implements CategoryService {
         try {
           if (jwtFilter.isAdmin()) {
             if (validateCategoryMap(requestMap, true)) {
-               Optional optional = categoryDao.findById(Integer.parseInt(requestMap.get("id")));
+               Optional optional = categoryRepository.findById(Integer.parseInt(requestMap.get("id")));
                if (!optional.isEmpty()) {
-                   categoryDao.save(getCategoryFromMap(requestMap, true));
+                   categoryRepository.save(getCategoryFromMap(requestMap, true));
                    return BibliotecaUtils.getResponseEntity("Categoria actualizada exitosamente", HttpStatus.OK);
                } else {
                    return BibliotecaUtils.getResponseEntity("El ID de la categoria no existe", HttpStatus.OK);

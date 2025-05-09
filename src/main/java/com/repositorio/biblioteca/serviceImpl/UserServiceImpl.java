@@ -4,9 +4,9 @@ import com.google.common.base.Strings;
 import com.repositorio.biblioteca.JWT.CustomerUsersDetailsService;
 import com.repositorio.biblioteca.JWT.JwtFilter;
 import com.repositorio.biblioteca.JWT.JwtUtil;
-import com.repositorio.biblioteca.POJO.User;
+import com.repositorio.biblioteca.Model.User;
 import com.repositorio.biblioteca.constants.BibliotecaConstants;
-import com.repositorio.biblioteca.dao.UserDao;
+import com.repositorio.biblioteca.Repository.UserRepository;
 import com.repositorio.biblioteca.service.UserService;
 import com.repositorio.biblioteca.utils.BibliotecaUtils;
 import com.repositorio.biblioteca.utils.EmailUtils;
@@ -18,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,7 +26,7 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -55,9 +52,9 @@ public class UserServiceImpl implements UserService {
         log.info("Registro de usuario {}", requestMap);
         try {
             if (validateSignUpMap(requestMap)) {
-                User user = userDao.findByEmailId(requestMap.get("email"));
+                User user = userRepository.findByEmailId(requestMap.get("email"));
                 if (Objects.isNull(user)) {
-                    userDao.save(getUserFromMap(requestMap));
+                    userRepository.save(getUserFromMap(requestMap));
                     return BibliotecaUtils.getResponseEntity("Registro exitoso", HttpStatus.OK);
                 } else {
                     return BibliotecaUtils.getResponseEntity("Ya existe el correo", HttpStatus.BAD_REQUEST);
@@ -118,7 +115,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<List<UserWrapper>> getAllUser() {
         try {
           if (jwtFilter.isAdmin()){
-             return new ResponseEntity<>(userDao.getAllUser(), HttpStatus.OK);
+             return new ResponseEntity<>(userRepository.getAllUser(), HttpStatus.OK);
           } else{
               return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
           }
@@ -133,10 +130,10 @@ public class UserServiceImpl implements UserService {
         try {
 
             if (jwtFilter.isAdmin()){
-              Optional<User> optional = userDao.findById(Integer.parseInt(requestMap.get("id")));
+              Optional<User> optional = userRepository.findById(Integer.parseInt(requestMap.get("id")));
               if (!optional.isEmpty()){
-                userDao.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
-                sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(), userDao.getAllAdmin());
+                userRepository.updateStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
+                sendMailToAllAdmin(requestMap.get("status"), optional.get().getEmail(), userRepository.getAllAdmin());
                 return BibliotecaUtils.getResponseEntity("Actualizacion del estado del usuario exitosa", HttpStatus.OK);
               }
               else {
@@ -169,11 +166,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
         try {
-          User userObj = userDao.findByEmail(jwtFilter.getCurrentUser());
+          User userObj = userRepository.findByEmail(jwtFilter.getCurrentUser());
           if (!userObj.equals(null)) {
             if (userObj.getPassword().equals(requestMap.get("oldPassword"))){
                   userObj.setPassword(requestMap.get("newPassword"));
-                  userDao.save(userObj);
+                  userRepository.save(userObj);
                   return BibliotecaUtils.getResponseEntity("Contraseña actualizada correctamente", HttpStatus.OK);
             }
             return BibliotecaUtils.getResponseEntity("Contraseña antigua incorrecta", HttpStatus.BAD_REQUEST);
@@ -188,7 +185,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
         try {
-          User user = userDao.findByEmail(requestMap.get("email"));
+          User user = userRepository.findByEmail(requestMap.get("email"));
           if (!Objects.isNull(user) && !Strings.isNullOrEmpty(user.getEmail()))
               emailUtils.forgotMail(user.getEmail(), "Credenciales para el Sistema de Gestion de la Biblioteca", user.getPassword());
               return BibliotecaUtils.getResponseEntity("Revisa tu correo para ver las credenciales", HttpStatus.OK);
